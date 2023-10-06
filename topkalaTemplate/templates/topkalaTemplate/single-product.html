@@ -1,0 +1,269 @@
+{% extends 'topkalaTemplate/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- main -->
+<main class="single-product default">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav>
+                    <ul class="breadcrumb">
+                        {% for category in categories %}
+                        <li>
+                            <a href="{{ category.url }}"><span>{{ category.title }}</span></a>
+                        </li>
+                        {% endfor %}
+                        <li>
+                            <span>{{ product.title }}</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <article class="product">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="product-gallery default">
+                                <img class="zoom-img" id="img-product-zoom" src="{{ product.images.first.image.url }}" data-zoom-image="{{ product.images.first.image.url }}" width="411" />
+                            
+                                <div id="gallery_01f" style="width: 500px; float: left;">
+                                    <ul class="gallery-items">
+                                        {% for image in product.images.all %}
+                                        <li>
+                                            <a href="#" class="thumbnail-zoom" data-zoom-image="{{ image.image.url }}">
+                                                <img src="{{ image.image.url }}" width="100" />
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <ul class="gallery-options">          
+                                <li>
+                                    <button class="add-favorites" data-product-id="{{ product.id }}">
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                    <span class="tooltip-option">افزودن به علاقه‌مندی</span>
+                                </li>
+
+                                <li>
+                                    <button data-toggle="modal" data-target="#myModal"><i class="fa fa-share-alt"></i></button>
+                                    <span class="tooltip-option">اشتراک گذاری</span>
+                                </li>
+                            </ul>
+                            <!-- Modal Core -->
+                            <div class="modal-share modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">اشتراک گذاری</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-share" method="post" action="{% url 'topkalaTemplate:send_product_email' product.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-share-title">اشتراک گذاری در شبکه های اجتماعی</div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <ul class="btn-group-share">
+                                                            <li><a href="{{ product.get_twitter_share_url }}" class="btn-share btn-share-twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                                            <li><a href="{{ product.get_facebook_share_url }}" class="btn-share btn-share-facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                                            <li><a href="{{ product.get_google_plus_share_url }}" class="btn-share btn-share-google-plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-share-title">ارسال به ایمیل</div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <!-- {{ email_form.as_p }} -->
+                                                        <label for="{{ email_form.to_email.id_for_label }}" class="ui-input ui-input-send-to-email">
+                                                            {{ email_form.to_email.label_tag }}
+                                                            <input id="{{ email_form.to_email.id_for_label }}" class="ui-input-field" type="email" name="{{ email_form.to_email.name }}" placeholder="آدرس ایمیل را وارد نمایید." required>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <button class="btn-primary">ارسال</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form class="form-share-url default">
+                                                <div class="form-share-url-title">آدرس صفحه</div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label class="ui-url">
+                                                            <input class="ui-url-field" value="https://www.digikala.com">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Core -->         
+                        </div>
+
+                       <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="product-title default">
+                <h1>{{ product.title }}</h1>
+            </div>
+            <div class="product-directory default">
+                <ul>
+                    <li>
+                        <span>برند</span> :
+                        <span class="product-brand-title">{{ brand }}</span>
+                    </li>
+                    <li>
+                        <span>دسته‌بندی</span> :
+                        <a href="#" class="btn-link-border">{{ product.category.parent.title }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="price-product defualt">
+                <div class="price-value">
+                    <span>{{ product.new_price }}</span>
+                    <span class="price-currency">تومان</span>
+                </div>
+                <div class="price-discount" data-title="تخفیف">
+                    <span>{{ product.discount_percent }}</span>
+                    <span>%</span>
+                </div>
+            </div>
+            <div class="product-add default">
+                <div class="parent-btn">
+                    <a href="#" class="dk-btn dk-btn-info">
+                        افزودن به سبد خرید
+                        <i class="now-ui-icons shopping_cart-simple"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+                        <!-- <div class="col-lg-4 col-md-6 col-sm-12 center-breakpoint">
+                            <div class="product-guaranteed default">
+                                بیش از ۱۸۰ نفر از خریداران این محصول را پیشنهاد داده‌اند
+                            </div>
+                            <div class="product-params default">
+                                <ul data-title="ویژگی‌های محصول">
+                                    <li>
+                                        <span>حافظه داخلی: </span>
+                                        <span> 256 گیگابایت </span>
+                                    </li>
+                                    <li>
+                                        <span>شبکه های ارتباطی: </span>
+                                        <span> 2G,3G,4G </span>
+                                    </li>
+                                    <li>
+                                        <span>رزولوشن عکس: </span>
+                                        <span> 12.0 مگاپیکسل</span>
+                                    </li>
+                                    <li>
+                                        <span>تعداد سیم کارت: </span>
+                                        <span> تک </span>
+                                    </li>
+                                    <li>
+                                        <span>ویژگی‌های خاص: </span>
+                                        <span> مقاوم در برابر آب
+                                            مناسب عکاسی
+                                            مناسب عکاسی سلفی
+                                            مناسب بازی
+                                            مجهز به حس‌گر تشخیص چهره
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="col-12 default no-padding">
+                    <div class="product-tabs default">
+                        <div class="box-tabs default">
+                            <ul class="nav" role="tablist">             
+                                <li class="box-tabs-tab">
+                                    <a  class="active" data-toggle="tab" href="#comments" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons shopping_shop"></i> نظرات کاربران
+                                    </a>
+                                </li>
+                                <li class="box-tabs-tab">
+                                    <a data-toggle="tab" href="#questions" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons ui-2_settings-90"></i> پرسش و پاسخ
+                                    </a>
+                                </li>
+                            </ul>
+                            
+                            <div class="card-body default">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="comments" role="tabpanel" aria-expanded="false">
+                                        <article>
+                                            <h2 class="param-title">نظرات کاربران <span>{{ comments.count }} نظر</span></h2>
+                                            <div class="comments-area default">
+                                                <ol class="comment-list">
+                                                    {% for comment in comments %}
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="comment-author">
+                                                                <cite class="fn">{{ comment.author }}</cite>
+                                                                <span class="says">گفت:</span>
+                                                            </div>
+                                                            <div class="commentmetadata"><a href="#">{{ comment.created_at }}</a></div>
+                                                            <p>{{ comment.text }}</p>
+                                                            
+                                                            {% for reply in comment.replies.all %}
+                                                            <div class="reply">
+                                                                <cite class="fn">{{ reply.author }}</cite>
+                                                                <span class="says">پاسخ داد:</span>
+                                                                <div class="commentmetadata"><a href="#">{{ reply.created_at }}</a></div>
+                                                                <p>{{ reply.text }}</p>
+                                                            </div>
+                                                            {% endfor %}
+                                                            
+                                                            <!-- افزودن فرم ارسال پاسخ -->
+                                                            <form action="{% url 'topkalaTemplate:add_comment' product.id %}" method="post" class="comment">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">
+                                                                <textarea class="form-control" name="text" placeholder="پاسخ به این نظر" rows="3"></textarea>
+                                                                <button class="btn btn-default" type="submit">ارسال پاسخ</button>
+                                                            </form>
+                                                        
+                                                    </li>
+                                                    {% endfor %}
+                                                </ol>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="tab-pane form-comment" id="questions" role="tabpanel" aria-expanded="false">
+                                        <article>
+                                            <h2 class="param-title">افزودن نظر <span>نظر خود را در مورد محصول مطرح نمایید</span></h2>
+                                            <form action="{% url 'topkalaTemplate:add_comment' product.id %}" method="post" class="comment">
+                                                {% csrf_token %}
+                                                <textarea class="form-control" name="text" placeholder="نظر" rows="5"></textarea>
+                                                <input type="hidden" name="parent_comment_id" value="{{ parent_comment_id }}">
+                                                <button class="btn btn-default" type="submit">ارسال نظر</button>
+                                            </form>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

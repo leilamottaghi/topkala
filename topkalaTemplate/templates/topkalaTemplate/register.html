@@ -1,0 +1,60 @@
+
+{% extends 'topkalaTemplate/base_log_pass.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+            <div class="account-box">
+                <a href="#" class="logo">
+                    <img src="assets/img/logo.png" alt="">
+                </a>
+                <div class="account-box-title">ثبت‌نام در تاپ کالا</div>
+                <div class="message-light">اگر قبلا با ایمیل ثبت‌نام کرده‌اید، نیاز به
+                    ثبت‌نام مجدد با شماره
+                    همراه ندارید</div>
+                <div class="account-box-content">
+                    <form class="form-account">
+                        <div class="form-account-title">پست الکترونیک یا شماره موبایل</div>
+                        <div class="form-account-row">
+                            <label class="input-label"><i class="now-ui-icons users_single-02"></i></label>
+                            <input class="input-field" type="text"
+                                placeholder="پست الکترونیک یا شماره موبایل خود را وارد نمایید">
+                        </div>
+                        <div class="form-account-title">کلمه عبور</div>
+                        <div class="form-account-row">
+                            <label class="input-label"><i
+                                    class="now-ui-icons ui-1_lock-circle-open"></i></label>
+                            <input class="input-field" type="password"
+                                placeholder="کلمه عبور خود را وارد نمایید">
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" checked="checked">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree">
+                                <a href="#" class="btn-link-border">حریم خصوصی</a> و <a href="#"
+                                    class="btn-link-border">شرایط و قوانین</a> استفاده از سرویس های سایت
+                                تاپ کالا را مطالعه نموده و با کلیه موارد آن موافقم.</label>
+                        </div>
+                        <div class="form-account-row form-account-submit">
+                            <div class="parent-btn">
+                                <button class="dk-btn dk-btn-info">
+                                    ثبت نام در تاپ کالا
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="account-box-footer">
+                    <span>قبلا در تاپ کالا ثبت‌نام کرده‌اید؟</span>
+                    <a href="#" class="btn-link-border">وارد شوید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
